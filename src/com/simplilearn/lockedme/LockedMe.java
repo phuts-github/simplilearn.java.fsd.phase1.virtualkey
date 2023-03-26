@@ -1,6 +1,7 @@
 package com.simplilearn.lockedme;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -29,7 +30,7 @@ public class LockedMe {
                     break;
                 }
                 case Constants.F_FILE_HANDLING: {
-//                    fileHandling(folder, listOfFolderFiles);
+                    fileHandling(folder, listOfFolderFiles);
                     break;
                 }
                 case Constants.Q_QUIT_APPLICATION: {
@@ -83,5 +84,57 @@ public class LockedMe {
         for (String mainMenu : Constants.ARRAY_MAIN_MENU) {
             System.out.println(mainMenu);
         }
+    }
+
+    private static void printFileHandlingMenu() {
+        System.out.println(Constants.FILE_HANDLING_MENU_TEXT);
+        for (String fileHandlingMainMenu : Constants.ARRAY_FILE_HANDLING_MENU) {
+            System.out.println(fileHandlingMainMenu);
+        }
+    }
+    private static void fileHandling(File folder, File[] listOfFolderFiles) {
+        Scanner sc = new Scanner(System.in);
+        String selectedFileMenuOption = "";
+
+        while (!selectedFileMenuOption.equals(Constants.M_MAIN_MENU)) {
+
+            printFileHandlingMenu();
+            System.out.print(Constants.ENTER_MENU_CHOICE);
+            selectedFileMenuOption = sc.nextLine().toUpperCase();
+
+            switch (selectedFileMenuOption) {
+                case Constants.A_ADD_FILE: {
+                    if (addFile(folder)) {
+                        listOfFolderFiles = retrieveFileList(folder, listOfFolderFiles);
+                    }
+                    break;
+                }
+                case Constants.D_DELETE_FILE: {
+                    if (deleteFile(folder)) {
+                        listOfFolderFiles = retrieveFileList(folder, listOfFolderFiles);
+                    }
+                    break;
+                }
+                case Constants.S_SEARCH_FILE: {
+                    searchFile(listOfFolderFiles);
+                    break;
+                }
+                case Constants.M_MAIN_MENU: {
+                    break;
+                }
+                default: {
+                    System.out.println(Constants.INVALID_CHOICE_ENTERED);
+                }
+            }
+        }
+    }
+    private static boolean addFile( File folder) {
+        return false;
+    }
+    private static boolean deleteFile(File folder) {
+        return false;
+    }
+    private static void searchFile(File[] listOfFolderFiles) {
+
     }
 }
