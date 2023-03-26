@@ -129,12 +129,63 @@ public class LockedMe {
         }
     }
     private static boolean addFile( File folder) {
-        return false;
+        System.out.print(Constants.ENTER_FILE_NAME_TO_ADD);
+        Scanner sc = new Scanner(System.in);
+        String inputFileName = sc.nextLine();
+
+        File f1 = new File(folder + Constants.FORWARD_SLASH + inputFileName);
+
+        if (f1.exists()) {
+            System.out.println(Constants.FILE + " '" + inputFileName + "'" + Constants.ALREADY_EXISTS);
+            return false;
+        } else {
+            try {
+                f1.createNewFile();
+                System.out.println(Constants.FILE + " '" + inputFileName + "'" + Constants.CREATED);
+                return true;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
     private static boolean deleteFile(File folder) {
-        return false;
+        System.out.print(Constants.ENTER_FILE_NAME_TO_DELETE);
+        Scanner sc = new Scanner(System.in);
+        String inputFileName = sc.nextLine();
+
+        File f1 = new File(folder + Constants.FORWARD_SLASH + inputFileName);
+
+        if (f1.exists()) {
+            f1.delete();
+            System.out.println(Constants.FILE + Constants.DELETED);
+            return true;
+        } else {
+            System.out.println(Constants.FILE + " '" + inputFileName + "'" + Constants.NOT_FOUND);
+            return false;
+        }
     }
     private static void searchFile(File[] listOfFolderFiles) {
+        int arrayFileListLength;
+        arrayFileListLength = listOfFolderFiles.length;
 
+        if (arrayFileListLength > 0) {
+            System.out.print(Constants.ENTER_FILE_NAME_TO_SEARCH);
+            Scanner sc = new Scanner(System.in);
+            String inputFileName = sc.nextLine();
+            int i = 0;
+
+            for (i = 0; i < arrayFileListLength; i++) {
+                if (listOfFolderFiles[i].getName().equals(inputFileName)) {
+                    break;
+                }
+            }
+            if (i != arrayFileListLength) {
+                System.out.println(Constants.FILE + " '" + inputFileName + "'" + Constants.FOUND);
+            }else {
+                System.out.println(Constants.FILE + " '" + inputFileName + "'" + Constants.NOT_FOUND);
+            }
+        } else {
+            System.out.println(Constants.NO_FILES_TO_SEARCH_FROM);
+        }
     }
 }
