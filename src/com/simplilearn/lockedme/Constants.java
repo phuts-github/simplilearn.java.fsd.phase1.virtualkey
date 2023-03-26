@@ -48,5 +48,13 @@ public class Constants {
     public static final String S_SEARCH_FILE = "S";
     public static final String WORKING_DIRECTORY_PATH =
             "C:/Users/phuth/git/simplilearn.java.fsd.phase1.virtualkey/DummyTestFiles/";
-
+    public static final String[] WORKING_DIRECTORY_MISSING = {
+            "\n***********************************************",
+            "\n** ABORT ** ABORT ** ABORT ** ABORT ** ABORT **",
+            "\n******** WORKING DIRECTORY IS MISSING *********",
+            "\n* Before running application, make sure       *",
+            "\n* WORKING_DIRECTORY_PATH is set correctly in  *",
+            "\n* src/com/simplilearn/lockedme/Constants.java *",
+            "\n*********** LockedMe.com ** ABORTED ***********"
+    };
 }

@@ -7,22 +7,23 @@ import java.util.Scanner;
 
 public class LockedMe {
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
         printWelcomeMessage();
-
         File folder = new File(Constants.WORKING_DIRECTORY_PATH);
         File[] listOfFolderFiles = null;
-
-//         loading initial file list. The list will be refreshed based on functions selected.
-        listOfFolderFiles = retrieveFileList(folder,null);
         String selectedMainMenuOption = "";
-        Scanner sc = new Scanner(System.in);
-
+        if (folder.exists()) {
+//          loading initial file list. The list will be refreshed based on functions selected.
+            listOfFolderFiles = retrieveFileList(folder,null);
+        }
+        else {
+            printMissingWorkingDirectory();
+            selectedMainMenuOption = Constants.Q_QUIT_APPLICATION;
+        }
         while (!selectedMainMenuOption.equals(Constants.Q_QUIT_APPLICATION)) {
-
             printMainMenu();
             System.out.print(Constants.ENTER_MENU_CHOICE);
             selectedMainMenuOption = sc.nextLine().toUpperCase();
-
             switch (selectedMainMenuOption) {
                 case Constants.R_RETRIEVE_FILE_LIST: {
                     listOfFolderFiles = retrieveFileList(folder, listOfFolderFiles);
@@ -60,11 +61,8 @@ public class LockedMe {
         return null;
     }
     private static void printRetrievedFileList(File[] listOfFolderFiles) {
-
         int countOfFilesFound = listOfFolderFiles.length;
-
         System.out.println(Constants.FOLDER_FILE_COUNT + countOfFilesFound);
-
         for (int i = 0; i < countOfFilesFound; i++) {
             if (listOfFolderFiles[i].isFile()) {
                 System.out.println("\t" + (i+1) + Constants.FILE + "\t: " + listOfFolderFiles[i].getName());
@@ -72,6 +70,12 @@ public class LockedMe {
                 System.out.println("\t" + (i+1) + Constants.FOLDER + "\t: " + listOfFolderFiles[i].getName());
             }
         }
+    }
+    private static void printMissingWorkingDirectory() {
+        for (String directoryMissing : Constants.WORKING_DIRECTORY_MISSING) {
+            System.out.print(directoryMissing);
+        }
+        System.out.println();
     }
     private static void printWelcomeMessage() {
         for (String welcomeText : Constants.ARRAY_WELCOME_TEXT) {
@@ -95,13 +99,10 @@ public class LockedMe {
     private static void fileHandling(File folder, File[] listOfFolderFiles) {
         Scanner sc = new Scanner(System.in);
         String selectedFileMenuOption = "";
-
         while (!selectedFileMenuOption.equals(Constants.M_MAIN_MENU)) {
-
             printFileHandlingMenu();
             System.out.print(Constants.ENTER_MENU_CHOICE);
             selectedFileMenuOption = sc.nextLine().toUpperCase();
-
             switch (selectedFileMenuOption) {
                 case Constants.A_ADD_FILE: {
                     if (addFile(folder)) {
@@ -132,9 +133,7 @@ public class LockedMe {
         System.out.print(Constants.ENTER_FILE_NAME_TO_ADD);
         Scanner sc = new Scanner(System.in);
         String inputFileName = sc.nextLine();
-
         File f1 = new File(folder + Constants.FORWARD_SLASH + inputFileName);
-
         if (f1.exists()) {
             System.out.println(Constants.FILE + " '" + inputFileName + "'" + Constants.ALREADY_EXISTS);
             return false;
@@ -152,9 +151,7 @@ public class LockedMe {
         System.out.print(Constants.ENTER_FILE_NAME_TO_DELETE);
         Scanner sc = new Scanner(System.in);
         String inputFileName = sc.nextLine();
-
         File f1 = new File(folder + Constants.FORWARD_SLASH + inputFileName);
-
         if (f1.exists()) {
             f1.delete();
             System.out.println(Constants.FILE + Constants.DELETED);
@@ -167,13 +164,11 @@ public class LockedMe {
     private static void searchFile(File[] listOfFolderFiles) {
         int arrayFileListLength;
         arrayFileListLength = listOfFolderFiles.length;
-
         if (arrayFileListLength > 0) {
             System.out.print(Constants.ENTER_FILE_NAME_TO_SEARCH);
             Scanner sc = new Scanner(System.in);
             String inputFileName = sc.nextLine();
             int i = 0;
-
             for (i = 0; i < arrayFileListLength; i++) {
                 if (listOfFolderFiles[i].getName().equals(inputFileName)) {
                     break;
